@@ -236,6 +236,16 @@ function AppContent() {
     setTiempo(prev => prev + 1);
   }, [procesos, bloquesRAM, tiempo, config, intentarAsignar]);
 
+  // Verificar si todos los procesos han terminado
+  useEffect(() => {
+    if (procesos.length > 0 && isPlaying) {
+      const todosProcesosTerminados = procesos.every(p => p.estado === 'Terminado');
+      if (todosProcesosTerminados) {
+        setIsPlaying(false);
+      }
+    }
+  }, [procesos, isPlaying]);
+
   useEffect(() => {
     let intervalo = null;
     if (isPlaying) {
